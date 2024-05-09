@@ -1,17 +1,27 @@
 #!/usr/bin/python3
 """
-Given a number n, writes a method that calculates the fewest number 
-of operations needed to result in exactly n H characters in the file.
+method to determine the number of occurance of a letter
+"""
+"""
+it returns an integer if n is impossible returns 0
 """
 
 
 def minOperations(n):
-    """returns minimum operations to get n H's"""
-    operations = 0
-    if n <= 1:
-        return 0
-    for i in range(2, n + 1):
-        while n % i == 0:
-            n = n / i
-            operations += i
-    return operations
+    at_movement = 1
+    initial_value = 0
+    counting = 0
+    while at_movement < n:
+        if((n - at_movement) % at_movement == 0):
+            initial_value = at_movement
+            at_movement += initial_value
+            counting += 2
+        else:
+<<<<<<< HEAD
+            at_movement += initial_value
+            counting += 1
+    return counting
+=======
+            now += start
+            counter += 1
+    return counter
