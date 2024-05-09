@@ -1,27 +1,21 @@
 #!/usr/bin/python3
-"""
-method to determine the number of occurance of a letter
-"""
-"""
-it returns an integer if n is impossible returns 0
-"""
-
-
 def minOperations(n):
-    at_movement = 1
-    initial_value = 0
-    counting = 0
-    while at_movement < n:
-        if((n - at_movement) % at_movement == 0):
-            initial_value = at_movement
-            at_movement += initial_value
-            counting += 2
-        else:
-<<<<<<< HEAD
-            at_movement += initial_value
-            counting += 1
-    return counting
-=======
-            now += start
-            counter += 1
-    return counter
+if n <= 1:
+return n
+
+operations = 0
+clipboard = 1  # Initial content of clipboard (single 'H')
+buffer = 1     # Initial content of buffer (single 'H')
+
+while buffer < n:
+    if n % buffer == 0:
+        clipboard = buffer  # Update clipboard if buffer divides n
+    buffer += clipboard    # Paste the content of clipboard to buffer
+    operations += 1        # Increment the number of operations
+
+return operations
+
+Test cases
+
+print("Min # of operations to reach 4 chars:", minOperations(4))
+print("Min # of operations to reach 12 chars:", minOperations(12))
