@@ -1,21 +1,17 @@
 #!/usr/bin/python3
+"""
+Given a number n, writes a method that calculates the fewest number 
+of operations needed to result in exactly n H characters in the file.
+"""
+
+
 def minOperations(n):
-if n <= 1:
-return n
-
-operations = 0
-clipboard = 1  # Initial content of clipboard (single 'H')
-buffer = 1     # Initial content of buffer (single 'H')
-
-while buffer < n:
-    if n % buffer == 0:
-        clipboard = buffer  # Update clipboard if buffer divides n
-    buffer += clipboard    # Paste the content of clipboard to buffer
-    operations += 1        # Increment the number of operations
-
-return operations
-
-Test cases
-
-print("Min # of operations to reach 4 chars:", minOperations(4))
-print("Min # of operations to reach 12 chars:", minOperations(12))
+    """returns minimum operations to get n H's"""
+    operations = 0
+    if n <= 1:
+        return 0
+    for i in range(2, n + 1):
+        while n % i == 0:
+            n = n / i
+            operations += i
+    return operations
