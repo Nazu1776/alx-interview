@@ -1,44 +1,53 @@
 #!/usr/bin/python3
+"""
+module: 0-stats
+This module contains a method that reads stdin
+line by line and computes metrics
+"""
+
 import sys
 
-# Custom function to calculate statistics
-def calculate_stats(input_lines):
-    # Initialize variables to store metrics
-    total_file_size = 0
-    status_code_counts = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
-    line_count = 0
 
-    # Read input lines
-    for line in input_lines:
-        parts = line.split()
-        # Check if the line matches the expected format
-        if len(parts) == 7:
-            try:
-                file_size = int(parts[-1])
-                status_code = int(parts[-2])
-                total_file_size += file_size
-                if status_code in status_code_counts:
-                    status_code_counts[status_code] += 1
-                line_count += 1
-                if line_count % 10 == 0:
-                    print(f"Total file size: File size: {total_file_size}")
-                    for code in sorted(status_code_counts.keys()):
-                        print(f"{code}: {status_code_counts[code]}")
-            except ValueError:
-                pass
-        if len(parts) != 7:
-            continue
+def display_metrics(total_size, status_code):
+    """
+    Function that print the metrics
+    """
 
-    # Print final statistics
-    print(f"Total file size: File size: {total_file_size}")
-    for code in sorted(status_code_counts.keys()):
-        print(f"{code}: {status_code_counts[code]}")
+    print('File size: {}'.format(total_size))
+    for key, value in sorted(status_code.items()):
+        if value != 0:
+            print('{}: {}'.format(key, value))
 
-# Entry point of the script
-if __name__ == "__main__":
+
+if __name__ == '__main__':
+    total_size = 0
+    status_code = {
+        '200': 0,
+        '301': 0,
+        '400': 0,
+        '401': 0,
+        '403': 0,
+        '404': 0,
+        '405': 0,
+        '500': 0
+    }
+
     try:
-        input_lines = [line.strip() for line in sys.stdin]
-        calculate_stats(input_lines)
-    except KeyboardInterrupt:
-        pass
+        i = 0
+        for line in sys.stdin:
+            args = line.split()
+            if len(args) > 6:
+                status = args[-2]
+                file_size = args[-1]
+                total_size += int(file_size)
+                if status in status_code:
+                    i += 1
+                    status_code[status] += 1
+                    if i % 10 == 0:
+                        display_metrics(total_size, status_code)
 
+    except KeyboardInterrupt:
+        display_metrics(total_size, status_code)
+        raise
+    else:
+        display_metrics(total_size, status_code)
